@@ -5,6 +5,7 @@ import axios from "axios";
 const initialState = {
   bookings: [],
   singleBooking: [],
+  housebookings: [],
   status: "idle",
   error: null,
 };
@@ -39,6 +40,20 @@ export const fetchBookingsAsync = createAsyncThunk(
     }
   }
 );
+export const fetchBookingByHouseId = createAsyncThunk(
+  "booking/fetchBookingByHouseId",
+  async (houseId, { rejectWithValue }) => {
+    try {
+      console.log(houseId);
+      const response = await axios.get(
+        `http://localhost:5000/api/bookings/house/${houseId}`
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+)
 
 const bookingSlice = createSlice({
   name: "booking",
@@ -73,7 +88,22 @@ const bookingSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       });
+    builder
+      .addCase(fetchBookingByHouseId.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchBookingByHouseId.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.housebookings = action.payload;
+      })
+      .addCase(fetchBookingByHouseId.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      });
   },
 });
+
+export const selectAllBookings = (state) => state.booking.bookings;
+export const selectHouseBookings = (state) => state.booking.housebookings;
 export const selectBookings = (state) => state.booking.singleBooking;
 export default bookingSlice.reducer;
