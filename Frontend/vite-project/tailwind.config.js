@@ -15,5 +15,8 @@ module.exports = withMT({
   theme: {
     extend: {},
   },
+  variants: {
+    extend: {},
+  },
   plugins: [require('flowbite/plugin'),],
 });

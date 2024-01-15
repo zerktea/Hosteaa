@@ -19,7 +19,6 @@ import { selectUser, logoutUser, getUser } from "./slice/userSlice";
 const App = () => {
   const dispatch = useDispatch();
   const userData = useSelector(selectUser);
-
   const handleLogout = () => {
     dispatch(logoutUser());
     localStorage.removeItem("token");

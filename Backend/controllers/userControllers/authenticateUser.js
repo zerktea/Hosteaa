@@ -1,25 +1,24 @@
-// authenticateUser.js
-
 const jwt = require('jsonwebtoken');
 const userModel = require('../../models/Users');
 
 const authenticateUser = async (req, res, next) => {
-    console.log('authenticateUser controller');
+  console.log('authenticateUser controller');
   try {
-    // Get the JWT token from the cookie
-    const token = req.headers.authorization;
-   
+    // Get the JWT token from the "Authorization" header
+    const token = req.headers.authorization.split(' ')[1];
+
     if (!token) {
       // No token found, user is not authenticated
-      return res.status(401).json({ message: 'Unauthorized' });
+      return res.status(401).json({ message: 'Unauthorized no token' });
     }
 
-    // Verify the token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (!decoded) {
-      // Invalid token, user is not authenticated
-      return res.status(401).json({ message: 'Unauthorized' });
+    // Verify the token using a try-catch block
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+      console.error('Error during token verification. Token:', token, 'Error:', error);
+      return res.status(401).json({ message: 'Unauthorized token' });
     }
 
     // Fetch user data based on the user ID in the token
@@ -27,7 +26,7 @@ const authenticateUser = async (req, res, next) => {
 
     if (!user) {
       // User not found, token is invalid
-      return res.status(401).json({ message: 'Unauthorized' });
+      return res.status(401).json({ message: 'Unauthorized user not found' });
     }
 
     // Attach user information to the request object

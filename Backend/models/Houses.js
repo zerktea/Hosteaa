@@ -40,10 +40,15 @@ const houseSchema = new mongoose.Schema({
     ref: "User", // Reference to the User model
     required: true,
   },
+  numberofguests: {
+    type: Number,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
+
 });
 
 const House = mongoose.model("House", houseSchema);

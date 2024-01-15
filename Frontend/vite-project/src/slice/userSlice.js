@@ -7,22 +7,20 @@ const initialState = {
 export const getUser = createAsyncThunk("getUser", async () => {
   const token = localStorage.getItem("token");
   const headers = {
-    Authorization: `${token}`,
+    Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",
   };
-  const serializedHeaders = JSON.stringify(headers);
 
-  const res = axios
-    .get("http://localhost:5000/api/getLogedUser", {
-      headers: JSON.parse(serializedHeaders),
-    })
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      return error;
+  try {
+    const response = await axios.get("http://localhost:5000/api/getLogedUser", {
+      headers: headers,
     });
-  return res;
+
+    return response.data; // Return only the data part of the response
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error; // Let the rejection be handled by the `getUser.rejected` case
+  }
 });
 const userSlice = createSlice({
   name: "user",
@@ -42,11 +40,15 @@ const userSlice = createSlice({
       })
       .addCase(getUser.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.user = action.payload.data.user;
+        state.user = action.payload.user;
       })
       .addCase(getUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+        // Handle unauthorized response here if needed
+        if (action.payload?.response?.status === 401) {
+          // Dispatch an action to log the user out or handle unauthorized scenario
+        }
       });
   },
 });
