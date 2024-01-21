@@ -4,7 +4,7 @@ exports.getHouseById = async (req, res) => {
     console.log("getHouseById controller");
     try {
         const houseId = req.params.id;
-        const house = await House.findById(houseId);
+        const house = await House.findById(houseId).populate("owner", "name surename email profilePic");
         if (!house) {
             return res.status(404).json({ message: "House not found" });
         }

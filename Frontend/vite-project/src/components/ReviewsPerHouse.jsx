@@ -3,10 +3,10 @@ import { Typography, Avatar, Rating } from "@material-tailwind/react";
 
 export default function ReviewsPerHouse(props) {
     const { reviews } = props;
-
+    console.log(reviews);
     return (
         <div className="reviews-per-house">
-            {reviews.map((review) => (
+            {reviews.reviews.map((review) => (
                  <div className="px-8 text-center mb-12 card shadow-sm shadow-blue-gray" key={review._id}>
                  <Typography variant="h4" color="blue-gray" className="mb-6 font-medium">
                    &quot;{review.comment}&quot;

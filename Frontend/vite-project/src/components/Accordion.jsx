@@ -30,7 +30,7 @@ export default function AccordionComponent(props) {
     <>
       <Accordion open={open === 3} icon={<Icon id={3} open={open} />}>
         <AccordionHeader onClick={() => handleOpen(3)}>
-         Check the reviews of this house ({reviews.length})
+         Check the reviews of this house ({reviews.reviews.length})
         </AccordionHeader>
         <AccordionBody>
          <ReviewsPerHouse  reviews={reviews} />

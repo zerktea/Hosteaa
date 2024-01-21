@@ -6,7 +6,9 @@ exports.createHouse = async (req, res) => {
  
   try {
     const newHouse = new House({
+      
       ...req.body,
+      numberofguests: parseInt(req.body.guests),
       pictures: req.files.map((file) => file.path.replace(/\\/g, "/")),
     })
 

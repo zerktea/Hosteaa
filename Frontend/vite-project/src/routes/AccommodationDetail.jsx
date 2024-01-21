@@ -22,8 +22,9 @@ import { selectReviews } from "../slice/reviewSlice";
 import AccordionComponent from "../components/Accordion";
 import Payment from "../components/Payment";
 import { selectHouseBookings } from "../slice/bookingSlice";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import HouseCard from "../components/HouseCard";
+import { Avatar, Typography } from "@material-tailwind/react";
 
 const AccommodationDetails = () => {
   const [showPayment, setShowPayment] = React.useState(false);
@@ -83,63 +84,153 @@ const AccommodationDetails = () => {
     // If the date is not within any booking range, it should not be disabled
     return false;
   }
-
+  const handleLocation = () => {
+    window.open(
+      `https://www.google.com/maps/search/?api=1&query=${singleAccommodation.location}`,
+      "_blank"
+    );
+  };
   if (!singleAccommodation) {
     // Handle loading state, return a loading spinner or message
     return <div>Loading...</div>;
   }
   return (
-    <><div><Toaster/></div>
+    <>
+      <div>
+        <Toaster />
+      </div>
       {showPayment ? (
-        <div > 
-          <div className="flex  gap-4 p-4 m-8 text-l  text-gray-600 dark:text-white underline hover:cursor-pointer" onClick={() => setShowPayment(false)}>
-           Back to Accommodation
+        <div>
+          <div
+            className="flex  gap-4 p-4 m-8 text-l  text-gray-600 dark:text-white underline hover:cursor-pointer"
+            onClick={() => setShowPayment(false)}
+          >
+            Back to Accommodation
           </div>
-         
-        <div className="flex flex-col gap-2 p-4 m-8 md:grid md:grid-cols-2 md:gap-4 md:p-8 md:align-center place-items-center">
-          <div className="flex align-center ">
-            <Payment
-              bookingForm={{
-                ...bookingForm,
-                user: user._id,
-                totalAmount:
-                  Math.abs(
-                    bookingForm.checkIn.diff(bookingForm.checkOut, "day")
-                  ) * singleAccommodation.price,
-              }}
-              handlePayment={() => setShowPayment(false)}
-            />
-          </div>
-          <div className="flex flex-col gap-6">
-            <div>
-            <HouseCard house={singleAccommodation} />
+
+          <div className="flex flex-col gap-2 p-4 m-8 md:grid md:grid-cols-2 md:gap-4 md:p-8 md:align-center place-items-center">
+            <div className="flex align-center ">
+              <Payment
+                bookingForm={{
+                  ...bookingForm,
+                  user: user._id,
+                  totalAmount:
+                    Math.abs(
+                      bookingForm.checkIn.diff(bookingForm.checkOut, "day")
+                    ) * singleAccommodation.price,
+                }}
+                handlePayment={() => setShowPayment(false)}
+              />
             </div>
-            <div>
-            {singleAccommodation.price} per night - {" "}
-            {Math.abs(bookingForm.checkIn.diff(bookingForm.checkOut, "day"))} nights for   
-            <span className="font-bold text-xl text-gray-500 ml-2 underline">${Math.abs(
+            <div className="flex flex-col gap-4 align-center justify-center gap-6">
+              <div>
+                <HouseCard house={singleAccommodation} />
+              </div>
+              <div className="flex flex-col gap-2 align-center justify-center text-lg text-center">
+                {singleAccommodation.price} per night -{" "}
+                {Math.abs(
+                  bookingForm.checkIn.diff(bookingForm.checkOut, "day")
+                )}{" "}
+                night(s) for
+                <span className="font-bold text-xl text-gray-500 ml-2 underline">
+                  $
+                  {Math.abs(
                     bookingForm.checkIn.diff(bookingForm.checkOut, "day")
                   ) * singleAccommodation.price}
+                </span>
+                <Typography className="text-lg">
+                  <span className="text-sm">
+                    From{" "}
+                    <Typography className="text text-gray-500 underline hover:cursor-pointer">
+                      {dayjs(bookingForm.checkIn).format("DD/MM/YYYY")}{" "}
+                    </Typography>
+                    to{" "}
+                    <Typography className="text text-gray-500 underline hover:cursor-pointer">
+                      {dayjs(bookingForm.checkOut).format("DD/MM/YYYY")}
+                    </Typography>
                   </span>
-                  </div>
-                  </div>
-        </div>
+                </Typography>
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
         <div className="flex flex-col gap-2 p-4 m-8 ">
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             {singleAccommodation.title}{" "}
           </h1>
+          <Typography
+            variant="a"
+            color="gray"
+            className="text-sm hover:cursor-pointer underline flex flex-row gap-2 justify-start align-center"
+            onClick={handleLocation}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+              />
+              {singleAccommodation.location}
+            </svg>
+            {singleAccommodation.location}
+          </Typography>
           <div className="rounded-3xl ">
             <CarouselComponent images={singleAccommodation.pictures} />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] sm:grid-cols-1 gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-3xl">
-            <div>
-              <span className="">
-                ${singleAccommodation.price}{" "}
-                <span className="text-sm">/night</span>
-              </span>
+            <div className="p-4 bg-white shadow dark:bg-gray-800 rounded-3xl dark:bg-gray-800 border rounded-lg">
+              <div>
+                <span className="">
+                  ${singleAccommodation.price}{" "}
+                  <span className="text-sm">/night</span>
+                </span>{" "}
+                <span>
+                  <Typography className="text-sm text-gray-500">
+                    Max number of guests: {singleAccommodation.numberofguests}
+                  </Typography>
+                </span>
+              </div>
+              <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+              <div className="owner flex flex-row gap-2">
+                <div className="flex items-center gap-4">
+                  <Avatar
+                    src={
+                      `http://localhost:5000/${singleAccommodation.owner.profilePic}` ||
+                      null
+                    }
+                    alt="avatar"
+                  />
+                  <div>
+                    <Typography variant="h6">
+                      {singleAccommodation.owner.name}{" "}
+                      {singleAccommodation.owner.surename}
+                    </Typography>
+                    <Typography
+                      variant="small"
+                      color="gray"
+                      className="font-normal"
+                    >
+                      {singleAccommodation.owner.email}{" "}
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+              <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
               <div>{singleAccommodation.description}</div>
+              <br />
             </div>
             <div className="p-4 bg-white shadow dark:bg-gray-800 rounded-3xl dark:bg-gray-800 border rounded-lg">
               <form onSubmit={handleForm}>
@@ -207,8 +298,14 @@ const AccommodationDetails = () => {
 
                   <div className="form-control mt-6 flex justify-center">
                     <button
-                      type="submit"
-                      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded justify-self-end"
+                      class="px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-full select-none disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-gray-900/10 active:bg-gray-900/20 bg-orange-400 text-white font-sans hover:text-gray-800"
+                      type="button"
+                      onClick={handleForm}
+                      disabled={
+                        Math.abs(
+                          bookingForm.checkIn.diff(bookingForm.checkOut, "day")
+                        ) < 1
+                      }
                     >
                       Proceed to Payment
                     </button>

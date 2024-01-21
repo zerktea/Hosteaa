@@ -15,13 +15,19 @@ import BookingsSection from "./routes/BookingsSection"; // Import the BookingsSe
 import AccommodationsSection from "./routes/AccommodationsSection"; // Import the AccommodationsSection component
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, logoutUser, getUser } from "./slice/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const dispatch = useDispatch();
   const userData = useSelector(selectUser);
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
   const handleLogout = () => {
     dispatch(logoutUser());
     localStorage.removeItem("token");
+    
   };
   useEffect(() => {
     dispatch(getUser());
@@ -29,10 +35,10 @@ const App = () => {
 
   return (<>
     <Router>
-      <div className="App min-h-screen overflow-x-hidden pt-8">
-        <Header isLoggedIn={Boolean(userData)} onLogout={handleLogout} />
+      <div className="App lg:pl-10 lg:pr-10 overflow-x-hidden ">
+        <Header isLoggedIn={Boolean(userData)} onLogout={handleLogout} setSearchTerm={handleSearch}  className="sticky top-0 z-50"/>
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/" element={<Home searchTerm={searchTerm}/>} />
           <Route path="/:id" element={<AccommodationDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/Form" element={<Form />} />

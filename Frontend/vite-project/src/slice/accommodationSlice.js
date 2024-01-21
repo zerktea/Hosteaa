@@ -52,6 +52,7 @@ export const addAccommodation = createAsyncThunk(
         owner,
         pictures,
         features,
+        guests,
       } = formData;
 
       const formDataToSend = new FormData();
@@ -65,7 +66,7 @@ export const addAccommodation = createAsyncThunk(
       features.forEach((feature, index) => {
         formDataToSend.append(`features[${index}]`, feature);
       })
-
+      formDataToSend.append("guests", guests);
       // Append each picture to the FormData
       pictures.forEach((file, index) => {
         formDataToSend.append("pictures", file);

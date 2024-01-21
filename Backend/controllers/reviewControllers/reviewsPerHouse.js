@@ -57,8 +57,15 @@ const reviewsPerHouse = async (req, res) => {
       },
  
     ]);
-    console.log("results", reviews);
-    res.json(reviews);
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    const averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
+    const resultWithAverage = {
+      reviews,
+      averageRating,
+      reviewsLength: reviews.length,
+    };
+    console.log("results", averageRating);
+    res.json(resultWithAverage);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

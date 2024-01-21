@@ -94,7 +94,7 @@ export default function CarouselComponent(props) {
       </Carousel>
       <Tooltip content="Show all images">
         <IconButton
-          className="absolute xl:!top-2/3 xl:!left-20 xl:!-translate-y-3/5 !left-4 !-translate-y-20 "
+          className=" xl:!top-2/3 xl:!left-20 xl:!-translate-y-3/5 !left-4 !-translate-y-20 "
           onClick={handleOpen}
         >
           <svg
