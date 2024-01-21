@@ -19,7 +19,7 @@ app.use(express.json());
 // Enable CORS
 app.use(cors(
   {
- origin: ["https://deploy-hostea.vercel.app"],
+ origin: ["https://hostea-server.vercel.app"],
  credentials: true,
  methods: ["GET", "POST", "PUT", "DELETE"]
 }
@@ -38,6 +38,10 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
+
+app.get('/', (req, res) => {
+  res.json('Hello World!');
+})
 
 
 app.listen(PORT, () => {
