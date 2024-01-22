@@ -49,7 +49,7 @@ export const routes = [
       },
       {
         icon: <RectangleStackIcon {...icon} />,
-        name: "sign up",
+        name: "register a new admin",
         path: "/sign-up",
         element: <SignUp />,
       },

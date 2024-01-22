@@ -18,11 +18,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 // Enable CORS
 app.use(cors(
-  {
- origin: ["https://hostea-server.vercel.app"],
- credentials: true,
- methods: ["GET", "POST", "PUT", "DELETE"]
-}
+  
 ));
 //define routes
 app.use("/",userRoute)

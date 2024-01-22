@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { Link, NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import React from "react";
 import {
   Avatar,
   Button,
@@ -8,7 +9,8 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useMaterialTailwindController, setOpenSidenav } from "@/context";
-
+import axios from "axios";
+import react from "@heroicons/react";
 export function Sidenav({ brandImg, brandName, routes }) {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavColor, sidenavType, openSidenav } = controller;
@@ -17,6 +19,38 @@ export function Sidenav({ brandImg, brandName, routes }) {
     white: "bg-white shadow-sm",
     transparent: "bg-transparent",
   };
+  const [user, setUser] = React.useState({});
+  const token = localStorage.getItem("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+  const getUser = async () => {  try {
+    const response = await axios.get("http://localhost:5000/api/getLogedUser", {
+      headers: headers,
+    });
+
+    return response.data; // Return only the data part of the response
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error; // Let the rejection be handled by the `getUser.rejected` case
+  }
+  };
+  React.useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await getUser();
+        setUser(userData.user);
+        
+      } catch (error) {
+        // Handle error if needed
+      }
+    };
+
+    fetchUser();
+  }, []);
+ 
+
 
   return (
     <aside
@@ -48,22 +82,18 @@ export function Sidenav({ brandImg, brandName, routes }) {
       </div>
       <div className="m-4">
         {routes.map(({ layout, title, pages }, key) => (
+         
+         layout==="auth" && user.role === 1?null:
+          
           <ul key={key} className="mb-4 flex flex-col gap-1">
-            {title && (
-              <li className="mx-3.5 mt-4 mb-2">
-                <Typography
-                  variant="small"
-                  color={sidenavType === "dark" ? "white" : "blue-gray"}
-                  className="font-black uppercase opacity-75"
-                >
-                  {title}
-                </Typography>
-              </li>
-            )}
+         
             {pages.map(({ icon, name, path }) => (
+             name === "sign in"?null:
               <li key={name}>
+                
                 <NavLink to={`/${layout}${path}`}>
                   {({ isActive }) => (
+
                     <Button
                       variant={isActive ? "gradient" : "text"}
                       color={
