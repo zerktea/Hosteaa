@@ -52,7 +52,7 @@ export function Profile() {
               </div>
             </div>
           </div>
-          <div className="gird-cols-1 mb-12 grid gap-12 px-4  justify-center items-center justify-items-center w-full h-full">
+          <div className="gird-cols-1 mb-12 grid gap-12 px-4 justify-center items-center justify-items-center w-full h-full">
             <ProfileInfoCard
               title="Profile Information"
               details={{
