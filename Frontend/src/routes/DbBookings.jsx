@@ -41,7 +41,7 @@ const TABLE_ROWS = [
     date: "04/10/21",
   },
 ];
-const Dashboard = () => {
+const DbBookings = () => {
   const dispatch = useDispatch();
   const accommodations = useSelector(selectAccommodations);
 
@@ -53,7 +53,7 @@ console.log(accommodations.accommodations);
 
   return (<div className="flex flex-col gap-4 m-8">
     <Typography variant="h3" color="blue-gray">
-      Accommodations
+      Bookings
     </Typography>
     <Card className="h-full w-full overflow-scroll ">
       <table className="w-full min-w-max table-auto text-left">
@@ -147,4 +147,4 @@ console.log(accommodations.accommodations);
   );
 };
 
-export default Dashboard;
+export default DbBookings;
