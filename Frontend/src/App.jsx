@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUser, logoutUser, getUser } from "./slice/userSlice";
 import { useNavigate } from "react-router-dom";
 import DbBookings from "./routes/DbBookings";
+import Statistics from "./routes/statistics";
 const App = () => {
   const dispatch = useDispatch();
   const userData = useSelector(selectUser);
@@ -46,7 +47,7 @@ const App = () => {
             />
             <Routes>
               <Route
-                exact
+                
                 path="/"
                 element={<Home searchTerm={searchTerm} />}
               />
@@ -70,8 +71,9 @@ const App = () => {
         <Router className="">
           <DashboardHeader />
           <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/" element={<Dashboard />} />
             <Route path="/dashboard/bookings" element={<DbBookings />} />
+            <Route path="/dashboard/statistics" element={<Statistics/>} />
           </Routes>
         </Router>
       )}

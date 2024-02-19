@@ -208,7 +208,7 @@ const AccommodationDetails = () => {
                 <div className="flex items-center gap-4">
                   <Avatar
                     src={
-                      `http://localhost:5000/${singleAccommodation.owner.profilePic}` ||
+                      `https://hostia.pp.ua/${singleAccommodation.owner.profilePic}` ||
                       null
                     }
                     alt="avatar"

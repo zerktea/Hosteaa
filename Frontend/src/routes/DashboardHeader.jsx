@@ -11,6 +11,17 @@ function NavList() {
   const navigate = useNavigate();
   return (
     <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+        <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="p-1 font-medium"
+        onClick={() => navigate("/dashboard")}
+      >
+        <a href="#" className="flex items-center hover:text-blue-500 transition-colors">
+          Accommodations
+        </a>
+      </Typography>
       <Typography
         as="li"
         variant="small"
@@ -27,31 +38,13 @@ function NavList() {
         variant="small"
         color="blue-gray"
         className="p-1 font-medium"
+        onClick={() => navigate("/dashboard/statistics")}
       >
-        <a href="#" className="flex items-center hover:text-blue-500 transition-colors">
-          Account
+        <a href=" " className="flex items-center hover:text-blue-500 transition-colors">
+          Statistics
         </a>
       </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-medium"
-      >
-        <a href="#" className="flex items-center hover:text-blue-500 transition-colors">
-          Blocks
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-medium"
-      >
-        <a href="#" className="flex items-center hover:text-blue-500 transition-colors">
-          Docs
-        </a>
-      </Typography>
+     
     </ul>
   );
 }
@@ -79,7 +72,7 @@ export default function DashboardHeader() {
           variant="h6"
           className="mr-4 cursor-pointer py-1.5"
         >
-          Material Tailwind
+          Hostea Board
         </Typography>
         <div className="hidden lg:block">
           <NavList />

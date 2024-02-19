@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
- 
+  Chip ,
   Typography,
  
 } from "@material-tailwind/react";
@@ -12,44 +12,20 @@ import {
   fetchAllAccommodations,
   selectAccommodations,
 } from "../slice/accommodationSlice";
-const TABLE_HEAD = ["Owner", "In-Out Time","Location", "Title", "CreatedAt", "Action"];
+import { fetchAllBookings,selectallBookings } from "../slice/bookingSlice";
+const TABLE_HEAD = ["User", "Number of days","Title", "Owner", "Status","Total Price","Action"];
  
-const TABLE_ROWS = [
-  {
-    name: "John Michael",
-    job: "Manager",
-    date: "23/04/18",
-  },
-  {
-    name: "Alexa Liras",
-    job: "Developer",
-    date: "23/04/18",
-  },
-  {
-    name: "Laurent Perrier",
-    job: "Executive",
-    date: "19/09/17",
-  },
-  {
-    name: "Michael Levi",
-    job: "Developer",
-    date: "24/12/08",
-  },
-  {
-    name: "Richard Gran",
-    job: "Manager",
-    date: "04/10/21",
-  },
-];
+
 const DbBookings = () => {
   const dispatch = useDispatch();
-  const accommodations = useSelector(selectAccommodations);
+  const bookings = useSelector(selectallBookings);
 
   useEffect(() => {
     // Fetch all accommodations when the component mounts
-    dispatch(fetchAllAccommodations());
+    dispatch(fetchAllBookings());
+    
   }, [dispatch]);
-console.log(accommodations.accommodations);
+ 
 
   return (<div className="flex flex-col gap-4 m-8">
     <Typography variant="h3" color="blue-gray">
@@ -76,7 +52,7 @@ console.log(accommodations.accommodations);
           </tr>
         </thead>
         <tbody>
-          {accommodations.accommodations.map(({_id,owner,checkInTime,checkOutTime,location,title ,createdAt}, index) => (
+          {bookings.map(({_id,house,owner,user,checkInDate,checkOutDate,location,title,totalAmount}, index) => (
            <tr key={_id} className="even:bg-blue-gray-50 ">
               <td className="p-4">
                 <Typography
@@ -84,7 +60,7 @@ console.log(accommodations.accommodations);
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {owner.email}
+                  {user.email}
                 </Typography>
               </td>
               <td className="p-4">
@@ -93,7 +69,7 @@ console.log(accommodations.accommodations);
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {checkInTime+"-"+checkOutTime}
+                  {dayjs(checkOutDate).diff(dayjs(checkInDate), 'day')}
                 </Typography>
               </td>
               <td className="p-4">
@@ -102,7 +78,7 @@ console.log(accommodations.accommodations);
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {location}
+                  {house.title}
                 </Typography>
               </td>
               <td className="p-4">
@@ -113,7 +89,29 @@ console.log(accommodations.accommodations);
                   color="blue-gray"
                   className="font-medium"
                 >
-                  {title}
+                  {house.owner.email}
+                </Typography>
+              </td>
+              <td className="p-4">
+                <Typography
+                  as="a"
+                  href="#"
+                  variant="small"
+                  color="blue-gray"
+                  className="font-medium width-20"
+                >
+                 {dayjs(checkOutDate).isBefore(dayjs()) ? <Chip color="green" className="font-medium text-center " value="Past" /> : <Chip className="font-medium text-center "  color="amber" value="Booked" />}
+                </Typography>
+              </td>
+                <td className="p-4">
+                <Typography
+                  as="a"
+                  href="#"
+                  variant="small"
+                  color="blue-gray"
+                  className="font-medium"
+                >
+                 $ {totalAmount}
                 </Typography>
               </td>
               <td className="p-4">
@@ -124,18 +122,7 @@ console.log(accommodations.accommodations);
                   color="blue-gray"
                   className="font-medium"
                 >
-                  {dayjs(createdAt).format("DD/MM/YYYY")} 
-                </Typography>
-              </td>
-              <td className="p-4">
-                <Typography
-                  as="a"
-                  href="#"
-                  variant="small"
-                  color="blue-gray"
-                  className="font-medium"
-                >
-                  {dayjs(createdAt).format("DD/MM/YYYY")} 
+
                 </Typography>
               </td>
             </tr>

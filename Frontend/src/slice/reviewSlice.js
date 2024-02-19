@@ -12,7 +12,7 @@ export const addReview = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/newreview",
+        "https://hostia.pp.ua/api/newreview",
         formData
       );
       return response.data;
@@ -27,7 +27,7 @@ export const fetchReviewsPerUser = createAsyncThunk(
   async (userId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/userreviews/${userId}`
+        `https://hostia.pp.ua/api/userreviews/${userId}`
       );
       return response.data;
     } catch (error) {
@@ -41,7 +41,7 @@ export const fetchReviewsPerHouse = createAsyncThunk(
   async (houseId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/reviews/${houseId}`
+        `https://hostia.pp.ua/api/reviews/${houseId}`
       );
       return response.data;
     } catch (error) {

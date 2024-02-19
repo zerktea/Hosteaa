@@ -12,7 +12,7 @@ export default function ReviewsPerHouse(props) {
                    &quot;{review.comment}&quot;
                  </Typography>
                  <Avatar
-                   src={`http://localhost:5000/${review.userDetails.profilePic}`}
+                   src={`https://hostia.pp.ua/${review.userDetails.profilePic}`}
                    alt="image"
                    size="lg"
                  />

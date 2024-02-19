@@ -34,7 +34,7 @@ export default function HouseCard(props) {
       <CardHeader floated={false} color="blue-gray">
         <img
           className="h-full w-full object-cover object-center !h-[15rem] !w-[100%]"
-          src={`http://localhost:5000/${house.pictures[0]}`}
+          src={`https://hostia.pp.ua/${house.pictures[0]}`}
           alt="image"
         />
         <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />

@@ -46,7 +46,7 @@ const ProfileSection = () => {
 
         // Send a POST request to your server to upload the image
         const response = await axios.post(
-          "http://localhost:5000/api/upload",
+          "https://hostia.pp.ua/api/upload",
           formData,
           {
             headers: {
@@ -96,7 +96,7 @@ const ProfileSection = () => {
               <div className="Profilepic">
                 <img
                   className="profile-pic"
-                  src={`http://localhost:5000/${user.profilePic}`}
+                  src={`https://hostia.pp.ua/${user.profilePic}`}
                   alt="Profile"
                   onClick={handleProfileClick}
                   style={{ cursor: "pointer" }}

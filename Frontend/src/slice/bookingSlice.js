@@ -6,6 +6,7 @@ const initialState = {
   bookings: [],
   singleBooking: [],
   housebookings: [],
+  allbookings: [],
   status: "idle",
   error: null,
 };
@@ -16,7 +17,7 @@ export const createBookingAsync = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/newbooking",
+        "https://hostia.pp.ua/api/newbooking",
         formData
       );
       return response.data;
@@ -32,7 +33,7 @@ export const fetchBookingsAsync = createAsyncThunk(
   async (userId, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/bookings/${userId}`
+        `https://hostia.pp.ua/api/bookings/${userId}`
       );
       return response.data;
     } catch (error) {
@@ -46,14 +47,28 @@ export const fetchBookingByHouseId = createAsyncThunk(
     try {
       console.log(houseId);
       const response = await axios.get(
-        `http://localhost:5000/api/bookings/house/${houseId}`
+        `https://hostia.pp.ua/api/bookings/house/${houseId}`
       );
       return response.data;
     } catch (error) {
       throw error;
     }
   }
-)
+);
+
+// Async thunk to fetch all bookings
+export const fetchAllBookings = createAsyncThunk(
+  "booking/fetchAllBookings",
+  async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/allbookings");
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 
 const bookingSlice = createSlice({
   name: "booking",
@@ -100,10 +115,26 @@ const bookingSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       });
+    builder
+      .addCase(fetchAllBookings.pending, (state) => {
+        state.status = "loading";
+
+      })
+      .addCase(fetchAllBookings.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.allbookings = action.payload;
+      })
+      .addCase(fetchAllBookings.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      });
+
   },
 });
 
 export const selectAllBookings = (state) => state.booking.bookings;
 export const selectHouseBookings = (state) => state.booking.housebookings;
 export const selectBookings = (state) => state.booking.singleBooking;
+export const selectallBookings = (state) => state.booking.allbookings;
+
 export default bookingSlice.reducer;

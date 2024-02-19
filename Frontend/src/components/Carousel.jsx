@@ -72,21 +72,21 @@ export default function CarouselComponent(props) {
       >
         {images[0] && (
           <img
-            src={`http://localhost:5000/${images[0]}`}
+            src={`https://hostia.pp.ua/${images[0]}`}
             alt="image 1"
             className="h-full w-full object-cover "
           />
         )}
         {images[1] && (
           <img
-            src={`http://localhost:5000/${images[1]}`}
+            src={`https://hostia.pp.ua/${images[1]}`}
             alt="image 2"
             className="h-full w-full object-cover "
           />
         )}
         {images[2] && (
           <img
-            src={`http://localhost:5000/${images[2]}`}
+            src={`https://hostia.pp.ua/${images[2]}`}
             alt="image 3"
             className="h-full w-full object-cover "
           />
@@ -145,7 +145,7 @@ export default function CarouselComponent(props) {
               <div key={index}>
                 <img
                   className="h-40 w-full max-w-full rounded-lg object-cover object-center overflow-hidden" 
-                  src={`http://localhost:5000/${imageLink}`}
+                  src={`https://hostia.pp.ua/${imageLink}`}
                   alt="gallery-photo"
                 />
               </div>

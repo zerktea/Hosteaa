@@ -17,7 +17,7 @@ export const fetchAccommodations = createAsyncThunk(
   async (_id) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/ownerhouses?_id=${_id}`
+        `https://hostia.pp.ua/api/ownerhouses?_id=${_id}`
       );
 
       return response.data;
@@ -30,7 +30,7 @@ export const fetchAccommodationById = createAsyncThunk(
   "accommodations/fetchAccommodationById",
   async (accommodationId) => {
     const response = await axios.get(
-      `http://localhost:5000/api/house/${accommodationId}`
+      `https://hostia.pp.ua//api/house/${accommodationId}`
     );
 
     return response.data;
@@ -73,7 +73,7 @@ export const addAccommodation = createAsyncThunk(
       });
 
       const response = await axios.post(
-        "http://localhost:5000/api/createhouses",
+        "https://hostia.pp.ua/api/createhouses",
         formDataToSend,
         {
           headers: {
@@ -94,7 +94,7 @@ export const fetchAllAccommodations = createAsyncThunk(
   "accommodations/fetchAllAccommodations",
   async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/allhouses");
+      const response = await axios.get("https://hostia.pp.ua/api/allhouses");
       return response.data;
     } catch (error) {
       throw error;

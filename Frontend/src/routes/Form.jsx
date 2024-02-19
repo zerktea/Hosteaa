@@ -127,7 +127,7 @@ export default function Form(props) {
         console.log(form);
         // Send a POST request to the Express server
         const response = await axios.post(
-          "http://localhost:5000/api/newUser",
+          "https://hostia.pp.ua/api/newUser",
           {
             name: form.name,
             surename: form.surename,

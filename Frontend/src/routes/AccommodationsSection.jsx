@@ -191,7 +191,7 @@ const AccommodationComponent = () => {
                   >
                     <img
                       className="w-full h-48 object-cover"
-                      src={`http://localhost:5000/${house.pictures[0]}`}
+                      src={`https://hostia.pp.ua/${house.pictures[0]}`}
                       alt={house.title}
                     />
                     <div className="px-6 py-4">
