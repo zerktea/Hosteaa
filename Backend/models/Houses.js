@@ -44,6 +44,11 @@ const houseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  disabled:{
+    type: Boolean,
+    default: false,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

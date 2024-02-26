@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
-const PORT = 5000;
+const PORT = 3000;
 const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
@@ -9,6 +9,7 @@ const userRoute = require('./Routes/UserRoute');
 const houseRoute = require('./Routes/HouseRoute');
 const  bookingRoute = require('./Routes/BookingRoute');
 const reviewRoute = require('./Routes/ReviewRoute');
+const chartRoute = require('./Routes/ChartRoute');
 const cookieParser = require('cookie-parser');
 
 
@@ -25,9 +26,10 @@ app.use("/",userRoute)
 app.use("/",houseRoute)
 app.use("/",bookingRoute)
 app.use("/",reviewRoute)
+app.use("/",chartRoute)
 
 //connect to db
-mongoose.connect('mongodb+srv://Zerktea:Zerktea@hostea.pnmm7rm.mongodb.net/HosteaBase', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://Zerktea:Zerktea@hostea.pnmm7rm.mongodb.net/HosteaBase');
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {

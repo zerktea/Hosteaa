@@ -11,6 +11,7 @@ import { Input, InputLabel, FormControl } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import TextField from "@mui/material/TextField";
+import toast from "react-hot-toast";
 const useStyles = styled((theme) => ({
   centerContainer: {
     display: "flex",
@@ -28,12 +29,13 @@ const ProfileSection = () => {
   const handleProfileClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
+      console.log(fileInputRef.current);
     }
   };
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
-
+    console.log(selectedFile);
     // Handle the file change here
   };
   const handleSave = async () => {
@@ -55,11 +57,23 @@ const ProfileSection = () => {
           }
         );
 
-        // Assuming the server responds with the image URL
+        // Handle the response from the server
+        if (response.status === 200) {
+            // Handle success response
+            console.log("Upload successful");
+            window.location.reload(false);
+
+        } else {
+            // Handle error response
+            console.error("Upload failed");
+        }
+
       }
     } catch (error) {
       console.error("Error:", error);
     }
+    toast.success("Profile saved successfully");
+   
   };
 
   return (
@@ -96,7 +110,7 @@ const ProfileSection = () => {
               <div className="Profilepic">
                 <img
                   className="profile-pic"
-                  src={`https://hostia.pp.ua/${user.profilePic}`}
+                  src={selectedFile ? URL.createObjectURL(selectedFile) : `https://hostia.pp.ua/${user.profilePic}`}
                   alt="Profile"
                   onClick={handleProfileClick}
                   style={{ cursor: "pointer" }}
@@ -112,6 +126,7 @@ const ProfileSection = () => {
                 <div type="button" onClick={handleSave}>
                   <Button
                     variant="outlined"
+                    
                     sx={{
                       mt: 3,
                       mb: 2,
@@ -120,7 +135,8 @@ const ProfileSection = () => {
                       borderRadius: "10px",
                       "&:hover": { bgcolor: "#00B5A3", color: "white" },
                     }}
-                  >
+                    {...(selectedFile ? {} : { disabled: true })} // Disable the button if no file is selected or disbled
+                    >
                     Save
                   </Button>
                 </div>

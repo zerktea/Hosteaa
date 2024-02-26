@@ -19,17 +19,29 @@ import {
   Typography,
   Tooltip,
 } from "@material-tailwind/react";
+import { CardHeader, CardBody } from "@material-tailwind/react";
+import {
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Modal from "@mui/material/Modal";
-
+import { useNavigate } from "react-router-dom";
 import { CardActionArea, CardContent } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
-
+import fetchBookingByHouseId from "../slice/bookingSlice";
+import selectHouseBookings from "../slice/bookingSlice";
 import Stack from "@mui/material/Stack";
 import perks from "../data/Perks";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 const AccommodationComponent = () => {
+  const [currentId, setCurrentId] = React.useState("");
+  const navigate = useNavigate();
   const style = {
     position: "absolute",
     top: "50%",
@@ -53,7 +65,9 @@ const AccommodationComponent = () => {
     features: [],
     guests: 1,
   });
+  const [open, setOpen] = React.useState(false);
 
+  const handleOpen = () => setOpen(!open);
   const [modalIsOpen, setModalIsOpen] = React.useState(true);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [selectedPerks, setSelectedPerks] = useState([]);
@@ -73,7 +87,12 @@ const AccommodationComponent = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const accommodations = useSelector(selectAccommodations);
-
+  const disabledAccommodations = accommodations?.accommodations.filter(
+    (accommodation) => accommodation.disabled
+  );
+  const activeAccommodations = accommodations?.accommodations.filter(
+    (accommodation) => !accommodation.disabled
+  );
   const fetchAccommodationsData = async () => {
     try {
       if (user && user._id) {
@@ -158,7 +177,28 @@ const AccommodationComponent = () => {
     // Trigger a click on the hidden input when the card is clicked
     document.getElementById("fileInput").click();
   };
+  const handleRemoveHouse = async () => {
+    try {
+      // Make an API call to update the disabled field of the house to true
+      await axios.put(`https://hostia.pp.ua/api/disableHouses/${currentId}`, {
+        disabled: true,
+      });
 
+      
+      toast.success("House removed successfully");
+
+      
+      setOpen(false);
+      setTimeout(() => {
+        window.location.reload(false);
+      }, 250);
+    } catch (error) {
+     
+      console.error("Error removing house:", error);
+      
+      toast.error("Failed to remove house");
+    }
+  };
   return (
     <Box
       sx={{
@@ -172,9 +212,12 @@ const AccommodationComponent = () => {
       <div>
         {modalIsOpen ? (
           <>
-            <h2>Your Accommodations</h2>
+            <Toaster />
+            <h4 className="text-center text-2xl font-bold my-4 ">
+              Active Accommodations
+            </h4>
 
-            <div className="m-4 flex justify-center items-center">
+            <div className="m-12 flex justify-center items-center">
               <Button
                 className="bg-orange-400 hover:bg-orange-500 text-white font-bold rounded"
                 onClick={openModal}
@@ -183,11 +226,11 @@ const AccommodationComponent = () => {
               </Button>
             </div>
             <div className="flex flex-wrap gap-4 justify-center m-4">
-              {accommodations ? (
-                accommodations.accommodations.map((house, index) => (
+              {activeAccommodations ? (
+                activeAccommodations.map((house, index) => (
                   <div
                     key={index}
-                    className="max-w-sm w-full rounded overflow-hidden shadow-lg"
+                    className="max-w-sm w-full rounded overflow-hidden shadow-lg gap-4 justify-center"
                   >
                     <img
                       className="w-full h-48 object-cover"
@@ -214,20 +257,156 @@ const AccommodationComponent = () => {
                           {house.location}
                         </p>
                       </div>
+                      <div className="px-6 pt-4 pb-4 grid grid-cols-2 gap-2 ">
+                        <Button
+                          className=" inline-block mr-2 p-2 "
+                          color="blue"
+                          onClick={() => navigate(`/edithouse/${house._id}`)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          className="ml-2   inline-block p-2 "
+                          color="red"
+                          onClick={() => {
+                            handleOpen();
+                            setCurrentId(house._id);
+                          }}
+                        >
+                          Remove
+                        </Button>
+
+                        <Dialog open={open} handler={handleOpen}>
+                          <DialogHeader>Long Dialog</DialogHeader>
+                          <DialogBody >
+                            <Typography className="font-normal">
+                              Are you sure you want to remove this house? Once
+                              removed, it will no longer appear in the search
+                              menu and will be disabled for a while.
+                            </Typography>
+                          </DialogBody>
+                          <DialogFooter className="space-x-2">
+                            <Button
+                              variant="text"
+                              color="blue-gray"
+                              onClick={handleOpen}
+                            >
+                              cancel
+                            </Button>
+                            <Button
+                              variant="gradient"
+                              color="red"
+                              onClick={() => {
+                                handleOpen();
+                                handleRemoveHouse();
+                              }}
+                            >
+                              Remove
+                            </Button>
+                          </DialogFooter>
+                        </Dialog>
+                      </div>
                     </div>
                   </div>
                 ))
               ) : (
-                <p>Loading accommodations...</p>
+                <p>No active accommodations</p>
+              )}
+            </div>
+            <div>
+              <hr className="my-8 border-blue-gray-500 w-full " />
+              <h4 className="text-center text-2xl font-bold my-4 mt-20">
+                Disabled Accommodations
+              </h4>
+            </div>
+            <div className="flex flex-wrap gap-4 justify-center m-4">
+              {disabledAccommodations ? (
+                disabledAccommodations.map((house, index) => (
+                  <div
+                    key={index}
+                    className="max-w-sm w-full rounded overflow-hidden shadow-lg gap-4 justify-center"
+                  >
+                    <img
+                      className="w-full h-48 object-cover"
+                      src={`https://hostia.pp.ua/${house.pictures[0]}`}
+                      alt={house.title}
+                    />
+                    <div className="px-6 py-4">
+                      <div className="font-bold text-xl mb-2">
+                        {house.title}
+                      </div>
+                      <p className="text-gray-700 text-base">
+                        {house.description}
+                      </p>
+                    </div>
+                    <div className="px-6 pt-4 pb-2">
+                      <p className="text-gray-700 text-base">
+                        Price: ${house.price}
+                      </p>
+                      <div className="px-6 pt-4 pb-2 justify-flex gap-2 flex-row">
+                        <span className="text-gray-700 inline-block ">
+                          <FaMapPin />
+                        </span>
+                        <p className="text-gray-700  inline-block ">
+                          {house.location}
+                        </p>
+                      </div>
+                      <div className="px-6 pt-4 pb-4 grid grid-cols-2 gap-2 ">
+                        <Button
+                          disabled
+                          className=" inline-block mr-2 p-2 "
+                          color="blue"
+                          onClick={() => navigate(`/edithouse/${house._id}`)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          disabled
+                          className="ml-2   inline-block p-2 "
+                          color="red"
+                          onClick={() => {
+                            handleOpen();
+                            setCurrentId(house._id);
+                          }}
+                        >
+                          Remove
+                        </Button>
+
+                   
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>No Inactive accommodations</p>
               )}
             </div>
           </>
         ) : (
-          <div >
+          <div>
             <div className="m-4 flex  content-start">
-            <Typography variant="h4" color="blue-gray" className="mb-6 font-medium hover:underline hover:cursor-pointer  " onClick={closeModal} >
-               Cancel
-            </Typography>
+              <Typography
+                variant="h4"
+                color="blue-gray"
+                className="mb-6 font-medium hover:underline hover:cursor-pointer flex "
+                onClick={closeModal}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+                Cancel
+              </Typography>
             </div>
             <div
               onClick={modalIsOpen}
@@ -237,7 +416,10 @@ const AccommodationComponent = () => {
             >
               <div className="modal-content">
                 <h2>House Form</h2>
-                <form onSubmit={handleAddAccommodation} className="form flex flex-col max-w-lg  items-center">
+                <form
+                  onSubmit={handleAddAccommodation}
+                  className="form flex flex-col max-w-lg  items-center"
+                >
                   <TextField
                     label="Title"
                     variant="outlined"
@@ -467,7 +649,11 @@ const AccommodationComponent = () => {
                     margin="normal"
                     required
                   />
-                  <Button type="submit" variant="contained" className="w-[50%] bg-orange-400 mt-4 justify-center">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    className="w-[50%] bg-orange-400 mt-4 justify-center"
+                  >
                     Submit
                   </Button>
                 </form>

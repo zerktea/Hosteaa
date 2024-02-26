@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import perks from "../data/Perks";
 import {
   fetchAccommodationById,
   selectSingleAccommodation,
@@ -24,7 +25,17 @@ import Payment from "../components/Payment";
 import { selectHouseBookings } from "../slice/bookingSlice";
 import toast, { Toaster } from "react-hot-toast";
 import HouseCard from "../components/HouseCard";
-import { Avatar, Typography } from "@material-tailwind/react";
+import {
+  Avatar,
+  Button,
+  Checkbox,
+  Card,
+  List,
+  ListItem,
+  ListItemPrefix,
+  Typography,
+  Tooltip,
+} from "@material-tailwind/react";
 
 const AccommodationDetails = () => {
   const [showPayment, setShowPayment] = React.useState(false);
@@ -45,10 +56,18 @@ const AccommodationDetails = () => {
   const user = useSelector(selectUser);
   const singleAccommodation = useSelector(selectSingleAccommodation);
   const bookings = useSelector(selectHouseBookings);
-  console.log(bookings);
 
   const handleForm = async (e) => {
     e.preventDefault();
+    if (!user) {
+      toast.error("Please login to book");
+      return;
+    }
+    else if (bookingForm.checkIn.isAfter(bookingForm.checkOut)) {
+      toast.error("CheckIn date should be before CheckOut date");
+    }else {
+      
+    
     const updatedForm = {
       ...bookingForm,
       user: user._id,
@@ -57,6 +76,7 @@ const AccommodationDetails = () => {
         singleAccommodation.price,
     };
     setShowPayment(true);
+  }
   };
   tomorrow.setDate(today.getDate() + 1);
 
@@ -105,7 +125,10 @@ const AccommodationDetails = () => {
             className="flex  gap-4 p-4 m-8 text-l  text-gray-600 dark:text-white underline hover:cursor-pointer"
             onClick={() => setShowPayment(false)}
           >
-            Back to Accommodation
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+</svg>
+Back to Accommodation
           </div>
 
           <div className="flex flex-col gap-2 p-4 m-8 md:grid md:grid-cols-2 md:gap-4 md:p-8 md:align-center place-items-center">
@@ -156,6 +179,7 @@ const AccommodationDetails = () => {
         </div>
       ) : (
         <div className="flex flex-col gap-2 p-4 m-8 ">
+          <Toaster />
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             {singleAccommodation.title}{" "}
           </h1>
@@ -203,8 +227,11 @@ const AccommodationDetails = () => {
                   </Typography>
                 </span>
               </div>
-              <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+              <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+              <Typography className="text-lg mb-2">Owner</Typography>
+
               <div className="owner flex flex-row gap-2">
+                
                 <div className="flex items-center gap-4">
                   <Avatar
                     src={
@@ -229,14 +256,39 @@ const AccommodationDetails = () => {
                 </div>
               </div>
               <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
-              <div>{singleAccommodation.description}</div>
-              <br />
+              <Typography className="text-lg mb-2">Description</Typography>
+              <div className="description text text-gray-500 ">{singleAccommodation.description}</div>
+              <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+              <Typography className="text-lg mb-2">Features</Typography>
+              <div className="flex flex-wrap gap-5">
+              {perks.map((perk, index) => (
+                          <Tooltip content={perk.name}>
+                            <div key={index}>
+                              <ListItem className="p-0">
+                               
+                                  <ListItemPrefix className="mr-3">
+                        
+                                  </ListItemPrefix>
+                                  <Typography
+                                    color="blue-gray"
+                                    className="font-medium"
+                                  >
+                                    <perk.icon />
+                                  </Typography>
+                               
+                              </ListItem>
+                            </div>
+                          </Tooltip>
+                        ))}
+              </div>
             </div>
             <div className="p-4 bg-white shadow dark:bg-gray-800 rounded-3xl dark:bg-gray-800 border rounded-lg">
               <form onSubmit={handleForm}>
                 <div className="flex flex-col gap-4">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <div className="form-control">
+                    <Typography className="text-lg mb-2">Check-In</Typography>
+
                       <DatePicker
                         disablePast
                         shouldDisableDate={disabledDate}
@@ -250,6 +302,7 @@ const AccommodationDetails = () => {
                       />
                     </div>
                     <div className="form-control">
+                    <Typography className="text-lg mb-2">Check-out</Typography>
                       <DatePicker
                         shouldDisableDate={disabledDate}
                         disablePast

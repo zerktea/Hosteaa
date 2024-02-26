@@ -61,7 +61,7 @@ export const fetchAllBookings = createAsyncThunk(
   "booking/fetchAllBookings",
   async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/allbookings");
+      const response = await axios.get("https://hostia.pp.ua/api/allbookings");
       console.log(response.data);
       return response.data;
     } catch (error) {

@@ -13,6 +13,7 @@ import DashboardHeader from "./routes/DashboardHeader";
 import ProfileSection from "./routes/ProfileSection"; // Import the ProfileSection component
 import BookingsSection from "./routes/BookingsSection"; // Import the BookingsSection component
 import AccommodationsSection from "./routes/AccommodationsSection"; // Import the AccommodationsSection component
+import AccommodationEdit from "./routes/AccommodationEdit";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, logoutUser, getUser } from "./slice/userSlice";
 import { useNavigate } from "react-router-dom";
@@ -22,9 +23,15 @@ const App = () => {
   const dispatch = useDispatch();
   const userData = useSelector(selectUser);
   const [searchTerm, setSearchTerm] = React.useState("");
+  const [numberofGuests, setNumberofGuests] = React.useState(1);
   const handleSearch = (term) => {
+    console.log(term);
     setSearchTerm(term);
   };
+  const handleNumberofGuests = (guests) => {
+    console.log(guests);
+    setNumberofGuests(guests);
+  }
   const handleLogout = () => {
     dispatch(logoutUser());
     localStorage.removeItem("token");
@@ -43,15 +50,17 @@ const App = () => {
               isLoggedIn={Boolean(userData)}
               onLogout={handleLogout}
               setSearchTerm={handleSearch}
+              setNumberofGuests={handleNumberofGuests}
               className="sticky top-0 z-50"
             />
             <Routes>
               <Route
                 
                 path="/"
-                element={<Home searchTerm={searchTerm} />}
+                element={<Home searchTerm={searchTerm} numberofGuests={numberofGuests} />}
               />
               <Route path="/:id" element={<AccommodationDetail />} />
+              <Route path="/edithouse/:id" element={<AccommodationEdit />} />
               <Route path="/login" element={<Login />} />
               <Route path="/Form" element={<Form />} />
               <Route path="/logout" element={<Logout />} />

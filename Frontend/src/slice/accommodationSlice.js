@@ -101,6 +101,21 @@ export const fetchAllAccommodations = createAsyncThunk(
     }
   }
 );
+export const updateAccommodation = (id, newData) => async (dispatch) => {
+  try {
+    const response = await fetch(`https://hostia.pp.ua/api/edithouse/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newData),
+    });
+    const updatedAccommodation = await response.json();
+    dispatch({ type: 'accommodations/updateAccommodation', payload: updatedAccommodation });
+  } catch (error) {
+    console.error('Error updating accommodation:', error);
+  }
+};
 
 // Create accommodation slice
 const accommodationSlice = createSlice({
@@ -144,7 +159,8 @@ const accommodationSlice = createSlice({
       .addCase(fetchAccommodationById.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-      });
+      })
+      
   },
 });
 export const selectAccommodations = (state) => state.accommodations;

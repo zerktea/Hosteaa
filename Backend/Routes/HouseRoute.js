@@ -4,6 +4,7 @@ const houseController = require("../controllers/houseControllers/createHouse.js"
 const getOwnersHouse = require("../controllers/houseControllers/getHousesByOwner");
 const getAllHouses = require("../controllers/houseControllers/getAllHouses");
 const getHouseById = require("../controllers/houseControllers/getHouseById"); 
+const editHouse = require("../controllers/houseControllers/editHouse");
 
 const multer = require("multer");
 const authenticateUser = require("../controllers/userControllers/authenticateUser");
@@ -28,7 +29,8 @@ router.post(
   houseController.createHouse
 );
 router.get("/api/house/:id", getHouseById.getHouseById);
-
+router.put("/api/edithouse/:id", editHouse.editHouse);
+router.put("/api/disableHouses/:id",  editHouse.disableHouse);
 module.exports = router;
 
 

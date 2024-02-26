@@ -3,7 +3,7 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import ProfileSection from './ProfileSection';
 import BookingsSection from './BookingsSection';
 import AccommodationsSection from './AccommodationsSection';
-import '../Styles/profile.css';
+
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
