@@ -19,7 +19,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "https://hostia.pp.ua/api/login",
+        "http://localhost:3000/api/login",
         {
           email,
           password,

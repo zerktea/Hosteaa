@@ -12,7 +12,7 @@ export const getUser = createAsyncThunk("getUser", async () => {
   };
 
   try {
-    const response = await axios.get("https://hostia.pp.ua/api/getLogedUser", {
+    const response = await axios.get("http://localhost:3000/api/getLogedUser", {
       headers: headers,
     });
 

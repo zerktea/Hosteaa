@@ -74,7 +74,7 @@ export default function Statistics() {
       <Typography variant="h3" color="blue-gray" className="text-center ">
         Statistics
       </Typography>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
         <Card className="h-full w-auto  ">
           <CardHeader
             className="mb-4 grid h-28 place-items-center"

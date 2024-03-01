@@ -26,7 +26,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
     "Content-Type": "application/json",
   };
   const getUser = async () => {  try {
-    const response = await axios.get("https://hostia.pp.ua/api/getLogedUser", {
+    const response = await axios.get("http://localhost:3000/api/getLogedUser", {
       headers: headers,
     });
 

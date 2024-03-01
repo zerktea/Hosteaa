@@ -30,7 +30,7 @@ export const fetchAccommodationById = createAsyncThunk(
   "accommodations/fetchAccommodationById",
   async (accommodationId) => {
     const response = await axios.get(
-      `https://hostia.pp.ua//api/house/${accommodationId}`
+      `https://hostia.pp.ua/api/house/${accommodationId}`
     );
 
     return response.data;

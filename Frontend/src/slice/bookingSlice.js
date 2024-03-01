@@ -17,7 +17,7 @@ export const createBookingAsync = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "https://hostia.pp.ua/api/newbooking",
+        "http://localhost:3000/api/newbooking",
         formData
       );
       return response.data;
@@ -33,7 +33,7 @@ export const fetchBookingsAsync = createAsyncThunk(
   async (userId, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `https://hostia.pp.ua/api/bookings/${userId}`
+        `http://localhost:3000/api/bookings/${userId}`
       );
       return response.data;
     } catch (error) {
@@ -47,7 +47,7 @@ export const fetchBookingByHouseId = createAsyncThunk(
     try {
       console.log(houseId);
       const response = await axios.get(
-        `https://hostia.pp.ua/api/bookings/house/${houseId}`
+        `http://localhost:3000/api/bookings/house/${houseId}`
       );
       return response.data;
     } catch (error) {
@@ -61,7 +61,7 @@ export const fetchAllBookings = createAsyncThunk(
   "booking/fetchAllBookings",
   async () => {
     try {
-      const response = await axios.get("https://hostia.pp.ua/api/allbookings");
+      const response = await axios.get("http://localhost:3000/api/allbookings");
       console.log(response.data);
       return response.data;
     } catch (error) {

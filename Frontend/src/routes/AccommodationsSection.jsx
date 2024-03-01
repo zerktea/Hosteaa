@@ -1,4 +1,3 @@
-// AccommodationComponent.jsx
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../slice/userSlice";
@@ -65,12 +64,30 @@ const AccommodationComponent = () => {
     features: [],
     guests: 1,
   });
+  const [errors, setErrors] = useState({});
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(!open);
   const [modalIsOpen, setModalIsOpen] = React.useState(true);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [selectedPerks, setSelectedPerks] = useState([]);
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [street, setStreet] = useState("");
+  const [houseNumber, setHouseNumber] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  function validateAddress(address) {
+    // Define the regular expression pattern for the address format
+
+    // Check if the address is empty
+    if (!address || typeof address !== "string") {
+      return "Address is required";
+    }
+
+    // If all checks pass, return an empty string to indicate valid address
+    return "";
+  }
+
   const handleChangePerk = (perk) => {
     // Toggle the selected perk
     setSelectedPerks((prevSelectedPerks) => {
@@ -116,12 +133,89 @@ const AccommodationComponent = () => {
   };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    // Update the corresponding state variable based on the field name
+    switch (name) {
+      case "country":
+        setCountry(value);
+        break;
+      case "city":
+        setCity(value);
+        break;
+      case "street":
+        setStreet(value);
+        break;
+        case "houseNumber":
+        setHouseNumber(value);
+        break;
+
+      case "zipCode":
+        setZipCode(value);
+        break;
+      case "title":
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+        break;
+      case "description":
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+        break;
+      case "price":
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+        break;
+      case "checkInTime":
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+        break;
+      case "checkOutTime":
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+        break;
+      case "guests":
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+        break;
+
+      default:
+        break;
+    }
+
+    // Validate the address fields individually
+    if (
+      name === "country" ||
+      name === "city" ||
+      name === "street" ||
+      name === "houseNumber" ||
+      name === "zipCode"
+    ) {
+      setErrors({
+        ...errors,
+        location: validateAddress(`${country}, ${city}, ${street}, ${houseNumber}, ${zipCode}`),
+      });
+    }
+
+    // Validate address field on change
+    if (name === "location") {
+      setErrors({
+        ...errors,
+        location: validateAddress(value),
+      });
+    }
   };
-  const previews = [];
 
   const handleImageChange = (e) => {
     const { name, files } = e.target;
@@ -150,26 +244,53 @@ const AccommodationComponent = () => {
   const handleAddAccommodation = (e) => {
     e.preventDefault();
 
+    // Validate each address part individually
+    const countryError = validateAddress(country);
+    const cityError = validateAddress(city);
+    const streetError = validateAddress(street);
+    const zipCodeError = validateAddress(zipCode);
+    const houseNumberError = validateAddress(houseNumber);
+    // Check if any address part is invalid
+    if (countryError || cityError || streetError|| houseNumberError || zipCodeError) {
+      // Set errors for each address part individually
+      setErrors({
+        country: countryError,
+        city: cityError,
+        street: streetError,
+        zipCode: zipCodeError,
+        houseNumber: houseNumberError
+      });
+      return;
+    }
+
+    // Concatenate the address parts into a single string
+    const location = `${country}, ${city}, ${street} ${houseNumber}, ${zipCode}`;
+
     const newHouseData = {
       ...formData,
+      location: location,
       owner: user._id,
       features: selectedPerks,
     };
-
+    alert(newHouseData.location);
     dispatch(addAccommodation(newHouseData));
+
+    // Clear the form fields after submission
     setFormData({
       title: "",
       description: "",
       price: "",
-      location: "",
-      pictures: [],
       checkInTime: "",
       checkOutTime: "",
-      features: [],
       guests: 1,
     });
+    setCountry("");
+    setCity("");
+    setStreet("");
+    setHouseNumber("");
+    setZipCode("");
     setImagePreviews([]);
-    setSelectedPerks([]); // Clear image previews after submission
+    setSelectedPerks([]);
     closeModal();
   };
 
@@ -177,28 +298,27 @@ const AccommodationComponent = () => {
     // Trigger a click on the hidden input when the card is clicked
     document.getElementById("fileInput").click();
   };
+
   const handleRemoveHouse = async () => {
     try {
       // Make an API call to update the disabled field of the house to true
-      await axios.put(`https://hostia.pp.ua/api/disableHouses/${currentId}`, {
+      await axios.put(`http://localhost:3000/api/disableHouses/${currentId}`, {
         disabled: true,
       });
 
-      
       toast.success("House removed successfully");
 
-      
       setOpen(false);
       setTimeout(() => {
         window.location.reload(false);
       }, 250);
     } catch (error) {
-     
       console.error("Error removing house:", error);
-      
+
       toast.error("Failed to remove house");
     }
   };
+
   return (
     <Box
       sx={{
@@ -278,7 +398,7 @@ const AccommodationComponent = () => {
 
                         <Dialog open={open} handler={handleOpen}>
                           <DialogHeader>Long Dialog</DialogHeader>
-                          <DialogBody >
+                          <DialogBody>
                             <Typography className="font-normal">
                               Are you sure you want to remove this house? Once
                               removed, it will no longer appear in the search
@@ -371,8 +491,6 @@ const AccommodationComponent = () => {
                         >
                           Remove
                         </Button>
-
-                   
                       </div>
                     </div>
                   </div>
@@ -452,14 +570,68 @@ const AccommodationComponent = () => {
                     required
                   />
                   <TextField
-                    label="Location"
+                    label="Country"
                     variant="outlined"
-                    name="location"
-                    value={formData.location}
+                    name="country"
+                    value={country}
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
                     required
+                    error={!!errors.country}
+                    helperText={errors.country}
+                  />
+                  <TextField
+                    label="City"
+                    variant="outlined"
+                    name="city"
+                    value={city}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    required
+                    error={!!errors.city}
+                    helperText={errors.city}
+                  />
+                  <div className="grid grid-cols-[2fr_1fr] gap-4">
+                    <TextField
+                      label="Street"
+                      variant="outlined"
+                      name="street"
+                      value={street}
+                      onChange={handleChange}
+                      fullWidth
+                      margin="normal"
+                      required
+                      error={!!errors.street}
+                      helperText={errors.street}
+                      className=" "
+                    />
+                    <TextField
+                      label="House number*/Apt"
+                      variant="outlined"
+                      name="houseNumber"
+                      value={houseNumber}
+                      onChange={handleChange}
+                      fullWidth
+                      margin="normal"
+                      required
+                      error={!!errors.houseNumber}
+                      helperText={errors.houseNumber}
+                    />
+                  </div>
+                  <TextField
+                    label="Zip Code"
+                    variant="outlined"
+                    type="number"
+                    name="zipCode"
+                    value={zipCode}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    required
+                    error={!!errors.zipCode}
+                    helperText={errors.zipCode}
                   />
                   <input
                     type="file"

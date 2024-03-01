@@ -48,7 +48,7 @@ const ProfileSection = () => {
 
         // Send a POST request to your server to upload the image
         const response = await axios.post(
-          "https://hostia.pp.ua/api/upload",
+          "http://localhost:3000/api/upload",
           formData,
           {
             headers: {
