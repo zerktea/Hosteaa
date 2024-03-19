@@ -19,6 +19,7 @@ import { selectUser, logoutUser, getUser } from "./slice/userSlice";
 import { useNavigate } from "react-router-dom";
 import DbBookings from "./routes/DbBookings";
 import Statistics from "./routes/statistics";
+import Footer  from "./components/Footer";
 const App = () => {
   const dispatch = useDispatch();
   const userData = useSelector(selectUser);
@@ -75,15 +76,19 @@ const App = () => {
               </Route>
             </Routes>
           </div>{" "}
+          <div className="mx-14"><Footer /></div>
         </Router>
       ) : (
-        <Router className="">
+        <Router >
+          <div className='bg-gray-200 min-h-screen pb-8'>
           <DashboardHeader />
           <Routes>
-            <Route path="/dashboard/" element={<Dashboard />} />
-            <Route path="/dashboard/bookings" element={<DbBookings />} />
+            {/* <Route path="/dashboard/" element={<Dashboard />} />
+            <Route path="/dashboard/bookings" element={<DbBookings />} /> */}
             <Route path="/dashboard/statistics" element={<Statistics/>} />
           </Routes>
+          </div>
+          <div className="mx-14"><Footer /></div>
         </Router>
       )}
     </>

@@ -11,7 +11,7 @@ function NavList() {
   const navigate = useNavigate();
   return (
     <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-        <Typography
+        {/* <Typography
         as="li"
         variant="small"
         color="blue-gray"
@@ -32,7 +32,7 @@ function NavList() {
         <a href=" " className="flex items-center hover:text-blue-500 transition-colors">
           Bookings
         </a>
-      </Typography>
+      </Typography> */}
       <Typography
         as="li"
         variant="small"

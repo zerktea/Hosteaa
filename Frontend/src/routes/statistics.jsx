@@ -15,15 +15,19 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import PiChart from "../components/PiChart";
+import GeoChart from "../components/GeoChart";
 
 export default function Statistics() {
   const [Reviewstats, setdatareviews] = React.useState([]);
   const [userstats, setUserstats] = React.useState([]);
-
+  const [totalHouses, setTotalHouses] = React.useState(0);
+  const setTotalNumberofHouses = (e) => {
+    setTotalHouses(e.target.value);
+  };
   const dispatch = useDispatch();
   const reviewsChart = useSelector(selectReviwesChart);
   const userRoles = useSelector(selectChartData);
-  const [totalUsers,setTotalUsers] = React.useState(0)
+  const [totalUsers, setTotalUsers] = React.useState(0);
   React.useEffect(() => {
     dispatch(getReviewsPerBookings());
     dispatch(getusersRoles());
@@ -70,59 +74,82 @@ export default function Statistics() {
   }, [reviewsChart, userRoles]);
 
   return (
-    <div className="grid gap-[3rem] m-8">
-      <Typography variant="h3" color="blue-gray" className="text-center ">
-        Statistics
-      </Typography>
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+    <div className="grid gap-[3rem] m-8 ">
+      <div className=" flex flex-col gap-8 px-8">
+        <Typography variant="h3" color="blue-gray" className="text-center ">
+          Statistics
+        </Typography>
         <Card className="h-full w-auto  ">
           <CardHeader
             className="mb-4 grid h-28 place-items-center"
             variant="gradient"
             color="gray"
           >
-            <Typography variant="h5" >
-              Booking reviewed per total booking
+            <Typography variant="h5">
+              Geo distrubution of houses per country
             </Typography>
           </CardHeader>
           <CardBody>
-            <PiChart
-              data={Reviewstats}
-              title="Booking reviewed per total booking"
-            />
+            <GeoChart totalhouses={setTotalNumberofHouses} />
           </CardBody>
           <CardFooter>
             <Typography
               color="blue-gray"
               className="font-bold text-blue-gray-800 text-center font"
             >
-              Total Bookings of {reviewsChart.pastbooking}
+              Total number of houses: { totalHouses}
             </Typography>
           </CardFooter>
         </Card>
-        <Card className="h-full w-auto  ">
-          <CardHeader
-            className="mb-4 grid h-28 place-items-center"
-            variant="gradient"
-            color="gray"
-          >
-            <Typography variant="h5" color="">
-              User distribution per Role
-            </Typography>
-          </CardHeader>
-          <CardBody>
-            <PiChart data={userstats} title="User distribution per Role" />
-          </CardBody>
-          <CardFooter>
-            <Typography
-              color="blue-gray"
-              className="font-bold text-blue-gray-800 text-center font"
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+          <Card className="h-full w-auto  ">
+            <CardHeader
+              className="mb-4 grid h-28 place-items-center"
+              variant="gradient"
+              color="gray"
             >
-              Total users of{" "} {totalUsers}
-             
-            </Typography>
-          </CardFooter>
-        </Card>
+              <Typography variant="h5">
+                Booking reviewed per total booking
+              </Typography>
+            </CardHeader>
+            <CardBody>
+              <PiChart
+                data={Reviewstats}
+                title="Booking reviewed per total booking"
+              />
+            </CardBody>
+            <CardFooter>
+              <Typography
+                color="blue-gray"
+                className="font-bold text-blue-gray-800 text-center font"
+              >
+                Total Bookings of {reviewsChart.pastbooking}
+              </Typography>
+            </CardFooter>
+          </Card>
+          <Card className="h-full w-auto  ">
+            <CardHeader
+              className="mb-4 grid h-28 place-items-center"
+              variant="gradient"
+              color="gray"
+            >
+              <Typography variant="h5" color="">
+                User distribution per Role
+              </Typography>
+            </CardHeader>
+            <CardBody>
+              <PiChart data={userstats} title="User distribution per Role" />
+            </CardBody>
+            <CardFooter>
+              <Typography
+                color="blue-gray"
+                className="font-bold text-blue-gray-800 text-center font"
+              >
+                Total users of {totalUsers}
+              </Typography>
+            </CardFooter>
+          </Card>
+        </div>
       </div>
     </div>
   );

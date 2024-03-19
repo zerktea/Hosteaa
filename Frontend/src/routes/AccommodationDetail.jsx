@@ -35,6 +35,7 @@ import {
   ListItemPrefix,
   Typography,
   Tooltip,
+  Chip,
 } from "@material-tailwind/react";
 
 const AccommodationDetails = () => {
@@ -261,25 +262,30 @@ Back to Accommodation
               <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
               <Typography className="text-lg mb-2">Features</Typography>
               <div className="flex flex-wrap gap-5">
-              {perks.map((perk, index) => (
-                          <Tooltip content={perk.name}>
-                            <div key={index}>
-                              <ListItem className="p-0">
-                               
-                                  <ListItemPrefix className="mr-3">
-                        
-                                  </ListItemPrefix>
-                                  <Typography
-                                    color="blue-gray"
-                                    className="font-medium"
-                                  >
-                                    <perk.icon />
-                                  </Typography>
-                               
-                              </ListItem>
-                            </div>
-                          </Tooltip>
-                        ))}
+                {singleAccommodation.features.map((feature,index) => {
+                  const perk = perks.find((perk) => perk.name === feature);
+                  return (
+                    <Tooltip content={perk.name}>
+                    <div key={index}>
+                      <ListItem className="p-0">
+                       
+                          <ListItemPrefix className="mr-3">
+                
+                          </ListItemPrefix>
+                          <Typography
+                            color="blue-gray"
+                            className="font-medium"
+                          >
+                            <perk.icon />
+                          </Typography>
+                       
+                      </ListItem>
+                    </div>
+                  </Tooltip>
+                  )
+
+                    
+                  })}
               </div>
             </div>
             <div className="p-4 bg-white shadow dark:bg-gray-800 rounded-3xl dark:bg-gray-800 border rounded-lg">

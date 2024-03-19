@@ -160,7 +160,7 @@ export default function Header({ onLogout, setSearchTerm, setNumberofGuests }) {
             className=" cursor-pointer py-1.5 font-medium"
             onClick={() => navigate("/")}
           >
-            Hostea
+            <img src="../../public/logo_h.png" alt="logo-ct" className="w-[4rem]" />
           </Typography>
           <div className="hidden ml-[8rem] lg:block">{navList}</div>
           <div className="flex items-center gap-4">
@@ -190,7 +190,7 @@ export default function Header({ onLogout, setSearchTerm, setNumberofGuests }) {
                     variant="text"
                     size="sm"
                     className="hidden lg:inline-block "
-                    onClick={() => window.open("/dashboard", "_blank")}
+                    onClick={() => window.open("/dashboard/statistics", "_blank")}
                   >
                     <span className="flex items-center">
                       <svg
@@ -321,7 +321,7 @@ export default function Header({ onLogout, setSearchTerm, setNumberofGuests }) {
                 <Button
                   variant="text"
                   size="sm"
-                  onClick={() => window.open("/dashboard", "_blank")}
+                  onClick={() => window.open("/dashboard/statistics", "_blank")}
                 >
                   <span className="flex items-center">
                     <svg
