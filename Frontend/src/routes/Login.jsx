@@ -19,7 +19,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/login",
+        "https://backtea.onrender.com/api/login",
         {
           email,
           password,

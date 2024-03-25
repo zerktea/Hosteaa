@@ -48,7 +48,7 @@ const ProfileSection = () => {
 
         // Send a POST request to your server to upload the image
         const response = await axios.post(
-          "http://localhost:3000/api/upload",
+          "https://backtea.onrender.com/api/upload",
           formData,
           {
             headers: {
@@ -110,7 +110,7 @@ const ProfileSection = () => {
               <div className="Profilepic">
                 <img
                   className="profile-pic"
-                  src={selectedFile ? URL.createObjectURL(selectedFile) : `https://hostia.pp.ua/${user.profilePic}`}
+                  src={selectedFile ? URL.createObjectURL(selectedFile) : `https://backtea.onrender.com/${user.profilePic}`}
                   alt="Profile"
                   onClick={handleProfileClick}
                   style={{ cursor: "pointer" }}

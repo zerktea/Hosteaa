@@ -17,7 +17,7 @@ export const fetchAccommodations = createAsyncThunk(
   async (_id) => {
     try {
       const response = await axios.get(
-        `https://hostia.pp.ua/api/ownerhouses?_id=${_id}`
+        `https://backtea.onrender.com/api/ownerhouses?_id=${_id}`
       );
 
       return response.data;
@@ -30,7 +30,7 @@ export const fetchAccommodationById = createAsyncThunk(
   "accommodations/fetchAccommodationById",
   async (accommodationId) => {
     const response = await axios.get(
-      `https://hostia.pp.ua/api/house/${accommodationId}`
+      `https://backtea.onrender.com/api/house/${accommodationId}`
     );
 
     return response.data;
@@ -73,7 +73,7 @@ export const addAccommodation = createAsyncThunk(
       });
 
       const response = await axios.post(
-        "https://hostia.pp.ua/api/createhouses",
+        "https://backtea.onrender.com/api/createhouses",
         formDataToSend,
         {
           headers: {
@@ -94,7 +94,7 @@ export const fetchAllAccommodations = createAsyncThunk(
   "accommodations/fetchAllAccommodations",
   async () => {
     try {
-      const response = await axios.get("https://hostia.pp.ua/api/allhouses");
+      const response = await axios.get("https://backtea.onrender.com/api/allhouses");
       return response.data;
     } catch (error) {
       throw error;
@@ -103,7 +103,7 @@ export const fetchAllAccommodations = createAsyncThunk(
 );
 export const updateAccommodation = (id, newData) => async (dispatch) => {
   try {
-    const response = await fetch(`https://hostia.pp.ua/api/edithouse/${id}`, {
+    const response = await fetch(`https://backtea.onrender.com/api/edithouse/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

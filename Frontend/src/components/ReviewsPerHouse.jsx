@@ -12,7 +12,7 @@ export default function ReviewsPerHouse(props) {
                    &quot;{review.comment}&quot;
                  </Typography>
                  <Avatar
-                   src={`https://hostia.pp.ua/${review.userDetails.profilePic}`}
+                   src={`https://backtea.onrender.com/${review.userDetails.profilePic}`}
                    alt="image"
                    size="lg"
                  />

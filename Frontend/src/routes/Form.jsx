@@ -126,7 +126,7 @@ export default function Form(props) {
         console.log(form);
         // Send a POST request to the Express server
         const response = await axios.post(
-          "http://localhost:3000/api/newUser",
+          "https://backtea.onrender.com/api/newUser",
           {
             name: form.name,
             surename: form.surename,

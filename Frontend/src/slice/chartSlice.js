@@ -12,7 +12,7 @@ export const getReviewsPerBookings = createAsyncThunk(
   'chart/getReviewsPerBookings',
   async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/reviewchart');
+      const response = await axios.get('https://backtea.onrender.com/api/reviewchart');
       console.log(response.data);
       return response.data;
     }
@@ -25,7 +25,7 @@ export const getusersRoles = createAsyncThunk(
   'chart/getusersRoles',
   async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/usersroles');
+      const response = await axios.get('https://backtea.onrender.com/api/usersroles');
       console.log(response.data);
       return response.data;
     }

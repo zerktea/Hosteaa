@@ -302,7 +302,7 @@ const AccommodationComponent = () => {
   const handleRemoveHouse = async () => {
     try {
       // Make an API call to update the disabled field of the house to true
-      await axios.put(`http://localhost:3000/api/disableHouses/${currentId}`, {
+      await axios.put(`https://backtea.onrender.com/api/disableHouses/${currentId}`, {
         disabled: true,
       });
 
@@ -354,7 +354,7 @@ const AccommodationComponent = () => {
                   >
                     <img
                       className="w-full h-48 object-cover"
-                      src={`https://hostia.pp.ua/${house.pictures[0]}`}
+                      src={`https://backtea.onrender.com/${house.pictures[0]}`}
                       alt={house.title}
                     />
                     <div className="px-6 py-4">
@@ -448,7 +448,7 @@ const AccommodationComponent = () => {
                   >
                     <img
                       className="w-full h-48 object-cover"
-                      src={`https://hostia.pp.ua/${house.pictures[0]}`}
+                      src={`https://backtea.onrender.com/${house.pictures[0]}`}
                       alt={house.title}
                     />
                     <div className="px-6 py-4">

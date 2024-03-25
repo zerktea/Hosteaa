@@ -17,7 +17,7 @@ export const createBookingAsync = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/newbooking",
+        "https://backtea.onrender.com/api/newbooking",
         formData
       );
       return response.data;
@@ -33,7 +33,7 @@ export const fetchBookingsAsync = createAsyncThunk(
   async (userId, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/bookings/${userId}`
+        `https://backtea.onrender.com/api/bookings/${userId}`
       );
       return response.data;
     } catch (error) {
@@ -47,7 +47,7 @@ export const fetchBookingByHouseId = createAsyncThunk(
     try {
       console.log(houseId);
       const response = await axios.get(
-        `http://localhost:3000/api/bookings/house/${houseId}`
+        `https://backtea.onrender.com/api/bookings/house/${houseId}`
       );
       return response.data;
     } catch (error) {
@@ -61,7 +61,7 @@ export const fetchAllBookings = createAsyncThunk(
   "booking/fetchAllBookings",
   async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/allbookings");
+      const response = await axios.get("https://backtea.onrender.com/api/allbookings");
       console.log(response.data);
       return response.data;
     } catch (error) {

@@ -113,7 +113,7 @@ const BookingsSection = () => {
                   <div className="flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 md:w-full md:flex-row p-8">
                     <img
                      
-                      src={`https://hostia.pp.ua/${booking.house.pictures[0]}`}
+                      src={`https://backtea.onrender.com/${booking.house.pictures[0]}`}
                       alt=""
                     />
                   </div>
@@ -180,7 +180,7 @@ const BookingsSection = () => {
                   <div className="flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 md:w-full md:flex-row p-8">
                     <img
                      
-                      src={`https://hostia.pp.ua/${booking.house.pictures[0]}`}
+                      src={`https://backtea.onrender.com/${booking.house.pictures[0]}`}
                       alt=""
                     />
                   </div>

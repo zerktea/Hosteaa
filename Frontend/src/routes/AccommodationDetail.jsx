@@ -236,7 +236,7 @@ Back to Accommodation
                 <div className="flex items-center gap-4">
                   <Avatar
                     src={
-                      `https://hostia.pp.ua/${singleAccommodation.owner.profilePic}` ||
+                      `https://backtea.onrender.com/${singleAccommodation.owner.profilePic}` ||
                       null
                     }
                     alt="avatar"

@@ -12,7 +12,7 @@ export const addReview = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/newreview",
+        "https://backtea.onrender.com/api/newreview",
         formData
       );
       return response.data;
@@ -27,7 +27,7 @@ export const fetchReviewsPerUser = createAsyncThunk(
   async (userId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/userreviews/${userId}`
+        `https://backtea.onrender.com/api/userreviews/${userId}`
       );
       return response.data;
     } catch (error) {
@@ -41,7 +41,7 @@ export const fetchReviewsPerHouse = createAsyncThunk(
   async (houseId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/reviews/${houseId}`
+        `https://backtea.onrender.com/api/reviews/${houseId}`
       );
       return response.data;
     } catch (error) {
