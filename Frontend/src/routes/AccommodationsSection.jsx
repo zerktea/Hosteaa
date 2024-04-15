@@ -302,7 +302,7 @@ const AccommodationComponent = () => {
   const handleRemoveHouse = async () => {
     try {
       // Make an API call to update the disabled field of the house to true
-      await axios.put(`https://backtea.onrender.com/api/disableHouses/${currentId}`, {
+      await axios.put(`http://localhost:3000/api/disableHouses/${currentId}`, {
         disabled: true,
       });
 

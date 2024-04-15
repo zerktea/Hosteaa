@@ -236,7 +236,7 @@ Back to Accommodation
                 <div className="flex items-center gap-4">
                   <Avatar
                     src={
-                      `https://backtea.onrender.com/${singleAccommodation.owner.profilePic}` ||
+                      `http://localhost:3000/${singleAccommodation.owner.profilePic}` ||
                       null
                     }
                     alt="avatar"
