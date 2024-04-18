@@ -91,7 +91,6 @@ export default function Form(props) {
         email: "",
       });
     }
-
     if (!form.password) {
       setError({
         ...ferror,
@@ -114,7 +113,6 @@ export default function Form(props) {
         password: "",
       });
     }
-
     if (
       form.password === form.confirmpassword &&
       !ferror.name &&

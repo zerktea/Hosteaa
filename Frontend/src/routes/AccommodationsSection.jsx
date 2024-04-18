@@ -272,7 +272,7 @@ const AccommodationComponent = () => {
       owner: user._id,
       features: selectedPerks,
     };
-    alert(newHouseData.location);
+    
     dispatch(addAccommodation(newHouseData));
 
     // Clear the form fields after submission

@@ -63,21 +63,18 @@ const AccommodationDetails = () => {
     if (!user) {
       toast.error("Please login to book");
       return;
-    }
-    else if (bookingForm.checkIn.isAfter(bookingForm.checkOut)) {
+    } else if (bookingForm.checkIn.isAfter(bookingForm.checkOut)) {
       toast.error("CheckIn date should be before CheckOut date");
-    }else {
-      
-    
-    const updatedForm = {
-      ...bookingForm,
-      user: user._id,
-      totalAmount:
-        Math.abs(bookingForm.checkIn.diff(bookingForm.checkOut, "day")) *
-        singleAccommodation.price,
-    };
-    setShowPayment(true);
-  }
+    } else {
+      const updatedForm = {
+        ...bookingForm,
+        user: user._id,
+        totalAmount:
+          Math.abs(bookingForm.checkIn.diff(bookingForm.checkOut, "day")) *
+          singleAccommodation.price,
+      };
+      setShowPayment(true);
+    }
   };
   tomorrow.setDate(today.getDate() + 1);
 
@@ -126,10 +123,21 @@ const AccommodationDetails = () => {
             className="flex  gap-4 p-4 m-8 text-l  text-gray-600 dark:text-white underline hover:cursor-pointer"
             onClick={() => setShowPayment(false)}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
-</svg>
-Back to Accommodation
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+              />
+            </svg>
+            Back to Accommodation
           </div>
 
           <div className="flex flex-col gap-2 p-4 m-8 md:grid md:grid-cols-2 md:gap-4 md:p-8 md:align-center place-items-center">
@@ -232,7 +240,6 @@ Back to Accommodation
               <Typography className="text-lg mb-2">Owner</Typography>
 
               <div className="owner flex flex-row gap-2">
-                
                 <div className="flex items-center gap-4">
                   <Avatar
                     src={
@@ -258,34 +265,27 @@ Back to Accommodation
               </div>
               <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
               <Typography className="text-lg mb-2">Description</Typography>
-              <div className="description text text-gray-500 ">{singleAccommodation.description}</div>
+              <div className="description text text-gray-500 ">
+                {singleAccommodation.description}
+              </div>
               <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
               <Typography className="text-lg mb-2">Features</Typography>
               <div className="flex flex-wrap gap-5">
-                {singleAccommodation.features.map((feature,index) => {
+                {singleAccommodation.features.map((feature, index) => {
                   const perk = perks.find((perk) => perk.name === feature);
                   return (
                     <Tooltip content={perk.name}>
-                    <div key={index}>
-                      <ListItem className="p-0">
-                       
-                          <ListItemPrefix className="mr-3">
-                
-                          </ListItemPrefix>
-                          <Typography
-                            color="blue-gray"
-                            className="font-medium"
-                          >
+                      <div key={index}>
+                        <ListItem className="p-0">
+                          <ListItemPrefix className="mr-3"></ListItemPrefix>
+                          <Typography color="blue-gray" className="font-medium">
                             <perk.icon />
                           </Typography>
-                       
-                      </ListItem>
-                    </div>
-                  </Tooltip>
-                  )
-
-                    
-                  })}
+                        </ListItem>
+                      </div>
+                    </Tooltip>
+                  );
+                })}
               </div>
             </div>
             <div className="p-4 bg-white shadow dark:bg-gray-800 rounded-3xl dark:bg-gray-800 border rounded-lg">
@@ -293,7 +293,7 @@ Back to Accommodation
                 <div className="flex flex-col gap-4">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <div className="form-control">
-                    <Typography className="text-lg mb-2">Check-In</Typography>
+                      <Typography className="text-lg mb-2">Check-In</Typography>
 
                       <DatePicker
                         disablePast
@@ -308,7 +308,9 @@ Back to Accommodation
                       />
                     </div>
                     <div className="form-control">
-                    <Typography className="text-lg mb-2">Check-out</Typography>
+                      <Typography className="text-lg mb-2">
+                        Check-out
+                      </Typography>
                       <DatePicker
                         shouldDisableDate={disabledDate}
                         disablePast

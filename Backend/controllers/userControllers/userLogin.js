@@ -4,7 +4,8 @@ const jwt = require("jsonwebtoken");
 require('dotenv').config();
 
 
-exports.userLogin = async (req, res) => {console.log('Login controller');
+exports.userLogin = async (req, res) => {
+  console.log('Login controller');
 try {
     const { email, password } = req.body;
 

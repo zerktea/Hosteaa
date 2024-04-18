@@ -11,16 +11,7 @@ export default function GeoChart({ totalhouses }) {
   const dispatch = useDispatch();
   // Retrieve all houses from Redux store
   const allHouses = useSelector(selectAccommodations);
-  const data = [
-    ["Country", "Popularity"],
-    ["Germany", 200],
-    ["United States", 300],
-    ["Brazil", 400],
-    ["Canada", 500],
-    ["France", 600],
-    ["RU", 700],
-  ];
-
+ 
   useEffect(() => {
     // Fetch all accommodations when the component mounts
     dispatch(fetchAllAccommodations());
